@@ -24,7 +24,12 @@ export class GildedRose {
     }
 
     private _updateQuality(item: ItemProxy): void {
-        const engine = new ItemQualityRuleEngine();
+        const engine = new ItemQualityRuleEngine.Builder()
+            .withAgedBrieItemRule()
+            .withBackstagePassesItemRule()
+            .withConjuredItemRule()
+            .withSulfurasItemRule()
+            .build();
         engine.applyRules(item);
     }
 }

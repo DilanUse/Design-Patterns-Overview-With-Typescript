@@ -7,14 +7,10 @@ import {NormalItemRule} from './Rules/normal-item-rule';
 import {ItemProxy} from './item-proxy';
 
 export class ItemQualityRuleEngine {
-    private _rules = new Array<RuleBase>();
+    private _rules: Array<RuleBase>;
 
-    public constructor() {
-        this._rules.push(new SulfurasItemRule());
-        this._rules.push(new ConjuredItemRule());
-        this._rules.push(new AgedBrieItemRule());
-        this._rules.push(new BackstagePassesItemRule());
-        this._rules.push(new NormalItemRule());
+    private constructor(rules: Array<RuleBase>) {
+        this._rules = rules;
     }
 
     public applyRules(item: ItemProxy): void {
@@ -23,6 +19,36 @@ export class ItemQualityRuleEngine {
                 rule.updateItem(item);
                 break;
             }
+        }
+    }
+
+    static Builder = class {
+        private _builderRules = new Array<RuleBase>();
+
+        public withAgedBrieItemRule() {
+            this._builderRules.push(new AgedBrieItemRule());
+            return this;
+        }
+
+        public withSulfurasItemRule() {
+            this._builderRules.push(new SulfurasItemRule());
+            return this;
+        }
+
+        public withConjuredItemRule() {
+            this._builderRules.push(new ConjuredItemRule());
+            return this;
+        }
+
+        public withBackstagePassesItemRule() {
+            this._builderRules.push(new BackstagePassesItemRule());
+            return this;
+        }
+
+        public build(): ItemQualityRuleEngine {
+            this._builderRules.push(new NormalItemRule()); // every engine has a normal item rule
+
+            return new ItemQualityRuleEngine(this._builderRules);
         }
     }
 }
