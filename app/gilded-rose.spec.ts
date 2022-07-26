@@ -1,4 +1,5 @@
-import {GildedRose, Item} from './gilded-rose';
+import {GildedRose} from './gilded-rose';
+import {Item} from './item';
 
 it('should foo', () => {
     const gildedRose = new GildedRose([new Item('foo', 0, 0)]);
