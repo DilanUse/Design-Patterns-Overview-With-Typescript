@@ -6,12 +6,11 @@ export class AgedBrieItemRule extends RuleBase {
         return item.name == 'Aged Brie';
     }
 
-    public override updateItem(item: ItemProxy) {
+    public adjustQuality(item: ItemProxy): void {
         item.incrementQuality();
-        item.decrementSellIn();
+    }
 
-        if (item.sellIn < 0) {
-            item.incrementQuality();
-        }
+    public adjustQualityForNegativeSellIn(item: ItemProxy): void {
+        item.incrementQuality();
     }
 }

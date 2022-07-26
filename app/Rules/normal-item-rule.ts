@@ -7,12 +7,11 @@ export class NormalItemRule extends RuleBase {
         return true;
     }
 
-    public override updateItem(item: ItemProxy): void {
+    public adjustQuality(item: ItemProxy): void {
         item.decrementQuality();
-        item.decrementSellIn();
+    }
 
-        if (item.sellIn < 0) {
-            item.decrementQuality();
-        }
+    public adjustQualityForNegativeSellIn(item: ItemProxy): void {
+        item.decrementQuality();
     }
 }

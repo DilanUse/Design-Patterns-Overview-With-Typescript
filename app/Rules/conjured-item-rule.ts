@@ -6,15 +6,13 @@ export class ConjuredItemRule extends RuleBase {
         return item.name == 'Conjured Mana Cake';
     }
 
-    public override updateItem(item: ItemProxy): void {
+    public adjustQuality(item: ItemProxy): void {
         item.decrementQuality();
         item.decrementQuality();
+    }
 
-        item.decrementSellIn();
-
-        if (item.sellIn < 0) {
-            item.decrementQuality();
-            item.decrementQuality();
-        }
+    public adjustQualityForNegativeSellIn(item: ItemProxy): void {
+        item.decrementQuality();
+        item.decrementQuality();
     }
 }

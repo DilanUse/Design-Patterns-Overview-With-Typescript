@@ -6,7 +6,15 @@ export class SulfurasItemRule extends RuleBase {
         return item.name == 'Sulfuras, Hand of Ragnaros';
     }
 
-    public override updateItem(item: ItemProxy) {
+    public adjustQuality(item: ItemProxy): void {
+        // do nothing
+    }
+
+    public adjustQualityForNegativeSellIn(item: ItemProxy): void {
+        // do nothing
+    }
+
+    public override adjustSellIn(item: ItemProxy) {
         // do nothing
     }
 }

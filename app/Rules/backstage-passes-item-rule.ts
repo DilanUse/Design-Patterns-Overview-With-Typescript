@@ -6,7 +6,7 @@ export class BackstagePassesItemRule extends RuleBase {
         return item.name == 'Backstage passes to a TAFKAL80ETC concert';
     }
 
-    public override updateItem(item: ItemProxy) {
+    public adjustQuality(item: ItemProxy): void {
         item.incrementQuality();
 
         if (item.sellIn < 11) {
@@ -16,11 +16,9 @@ export class BackstagePassesItemRule extends RuleBase {
         if (item.sellIn < 6) {
             item.incrementQuality();
         }
+    }
 
-        item.decrementSellIn();
-
-        if (item.sellIn < 0) {
-            item.resetQuality();
-        }
+    public adjustQualityForNegativeSellIn(item: ItemProxy): void {
+        item.resetQuality();
     }
 }
