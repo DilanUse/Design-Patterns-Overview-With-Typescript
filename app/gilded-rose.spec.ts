@@ -35,6 +35,13 @@ test('"Aged Brie" actually increases in Quality the older it gets', () => {
     expect(items[0].quality).toBe(6);
 });
 
+test('"Aged Brie" Once the sell by date has passed, Quality increases twice as fast', () => {
+    const gildedRose = new GildedRose([new Item('Aged Brie', 0, 5)]);
+    const items = gildedRose.updateQuality();
+    expect(items[0].sellIn).toBe(-1);
+    expect(items[0].quality).toBe(7);
+});
+
 test('The Quality of an item is never more than 50', () => {
     const gildedRose = new GildedRose([new Item('Aged Brie', 10, 50)]);
     const items = gildedRose.updateQuality();
@@ -91,5 +98,21 @@ describe('"Backstage passes", like aged brie, increases in Quality as its SellIn
         expect(items[0].quality).toBe(0);
         expect(items[1].sellIn).toBe(-2);
         expect(items[1].quality).toBe(0);
+    });
+});
+
+describe('"Conjured items"', () => {
+    test('Quality degrades twice as fast', () => {
+        const gildedRose = new GildedRose([new Item('Conjured Mana Cake', 5, 10)]);
+        const items = gildedRose.updateQuality();
+        expect(items[0].sellIn).toBe(4);
+        expect(items[0].quality).toBe(8);
+    });
+
+    test('Once the sell by date has passed, Quality degrades quadruplet as fast', () => {
+        const gildedRose = new GildedRose([new Item('Conjured Mana Cake', 0, 10)]);
+        const items = gildedRose.updateQuality();
+        expect(items[0].sellIn).toBe(-1);
+        expect(items[0].quality).toBe(6);
     });
 });

@@ -16,37 +16,79 @@ export class GildedRose {
         return this._items;
     }
 
-    private _updateQuality(item: ItemProxy): void {
-        if (item.name != 'Aged Brie' && item.name != 'Backstage passes to a TAFKAL80ETC concert') {
-            if (item.name != 'Sulfuras, Hand of Ragnaros') {
-                item.decrementQuality();
-            }
-        } else {
-            item.incrementQuality();
-            if (item.name == 'Backstage passes to a TAFKAL80ETC concert') {
-                if (item.sellIn < 11) {
-                    item.incrementQuality();
-                }
-                if (item.sellIn < 6) {
-                    item.incrementQuality();
-                }
-            }
-        }
-        if (item.name != 'Sulfuras, Hand of Ragnaros') {
-            item.decrementSellIn();
-        }
+    private updateSulfuras(item: ItemProxy) {
+        // do nothing
+    }
+
+    private updateAgedBrie(item: ItemProxy) {
+        item.incrementQuality();
+        item.decrementSellIn();
+
         if (item.sellIn < 0) {
-            if (item.name != 'Aged Brie') {
-                if (item.name != 'Backstage passes to a TAFKAL80ETC concert') {
-                    if (item.name != 'Sulfuras, Hand of Ragnaros') {
-                        item.decrementQuality();
-                    }
-                } else {
-                    item.resetQuality();
-                }
-            } else {
-                item.incrementQuality();
-            }
+            item.incrementQuality();
         }
+    }
+
+    private updateBackstagePasses(item: ItemProxy) {
+        item.incrementQuality();
+
+        if (item.sellIn < 11) {
+            item.incrementQuality();
+        }
+
+        if (item.sellIn < 6) {
+            item.incrementQuality();
+        }
+
+        item.decrementSellIn();
+
+        if (item.sellIn < 0) {
+            item.resetQuality();
+        }
+    }
+
+    private updateConjuredItem(item: ItemProxy) {
+        item.decrementQuality();
+        item.decrementQuality();
+
+        item.decrementSellIn();
+
+        if (item.sellIn < 0) {
+            item.decrementQuality();
+            item.decrementQuality();
+        }
+    }
+
+    private updateNormalItem(item: ItemProxy) {
+        item.decrementQuality();
+        item.decrementSellIn();
+
+        if (item.sellIn < 0) {
+            item.decrementQuality();
+        }
+    }
+
+    private _updateQuality(item: ItemProxy): void {
+        if (item.name == 'Sulfuras, Hand of Ragnaros') {
+            this.updateSulfuras(item);
+            return;
+        }
+
+        if (item.name == 'Aged Brie') {
+            this.updateAgedBrie(item);
+            return;
+        }
+
+        if (item.name == 'Backstage passes to a TAFKAL80ETC concert') {
+            this.updateBackstagePasses(item);
+            return;
+        }
+
+        if (item.name == 'Conjured Mana Cake') {
+            this.updateConjuredItem(item);
+            return;
+        }
+
+        this.updateNormalItem(item);
     }
 }
