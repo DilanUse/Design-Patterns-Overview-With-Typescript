@@ -6,6 +6,7 @@ import {ConjuredItemRule} from './Rules/conjured-item-rule';
 import {AgedBrieItemRule} from './Rules/aged-brie-item-rule';
 import {BackstagePassesItemRule} from './Rules/backstage-passes-item-rule';
 import {NormalItemRule} from './Rules/normal-item-rule';
+import {ItemQualityRuleEngine} from './item-quality-rule-engine';
 
 export class GildedRose {
     private readonly _items: Array<Item>;
@@ -23,18 +24,7 @@ export class GildedRose {
     }
 
     private _updateQuality(item: ItemProxy): void {
-        const rules = new Array<RuleBase>();
-        rules.push(new SulfurasItemRule());
-        rules.push(new ConjuredItemRule());
-        rules.push(new AgedBrieItemRule());
-        rules.push(new BackstagePassesItemRule());
-        rules.push(new NormalItemRule());
-
-        for (const rule of rules) {
-            if (rule.isMatch(item)) {
-                rule.updateItem(item);
-                break;
-            }
-        }
+        const engine = new ItemQualityRuleEngine();
+        engine.applyRules(item);
     }
 }
